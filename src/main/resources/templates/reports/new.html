@@ -1,0 +1,165 @@
+<!--<!DOCTYPE html>
+<html class="h-100" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: head_fragment(title=日報新規登録)"></head>
+
+<body class="h-100 overflow-hidden">
+<div class="row h-100">
+
+    <div class="h-100 p-3 mb-2 bg-dark text-white col-sm-2">
+        <nav th:replace="common/side :: copy"></nav>
+    </div>
+
+
+    <div class="mt-3 h-100 col-sm-10">
+        <div class="container-fluid p-0">
+            <h1 class="h3 mb-3">日報 新規登録</h1>
+        </div>
+
+        <div class="col-12 col-xxl-6">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/reports/create}" th:object="${report}" method="post">
+                            <div class="wizard wizard-success mb-4">
+                                <div class="mb-3">
+                                    <label class="form-label">社員</label>
+                                    <div class="col-md-7">
+                                        <select class="form-select" th:field="*{employee}">
+                                            <option th:each="emp : ${employeeList}" th:value="${emp}" th:text="${emp.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">日付</label>
+                                    <div class="col-md-5">
+                                        <input type="date" class="form-control" th:field="*{reportDate}" />
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">出勤時刻</label>
+                                    <div class="col-md-5">
+                                        <input type="time" class="form-control" th:field="*{startTime}" />
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">退勤時刻</label>
+                                    <div class="col-md-5">
+                                        <input type="time" class="form-control" th:field="*{endTime}" />
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">作業内容</label>
+                                    <div class="col-md-10">
+                                        <textarea class="form-control" th:field="*{content}" rows="5"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <input type="submit" value="登録" class="btn btn-primary">
+                                <a th:href="@{/reports}" class="btn btn-secondary ms-2">戻る</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html class="h-100" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: head_fragment(title=日報新規登録)"></head>
+
+<body class="h-100 overflow-hidden">
+	<div class="row h-100">
+
+		<div class="h-100 p-3 mb-2 bg-dark text-white col-sm-2">
+			<nav th:replace="common/side :: copy"></nav>
+		</div>
+
+
+		<div class="mt-3 h-100 col-sm-10">
+			<div class="container-fluid p-0">
+				<h1 class="h3 mb-3">日報 新規登録</h1>
+			</div>
+
+			<div class="col-12 col-xxl-6">
+				<div class="col-xl-12">
+					<div class="card">
+						<div class="card-body">
+							<form th:action="@{/reports/add}" th:object="${report}" method="post">
+								<div class="wizard wizard-success mb-4">
+
+
+									<div class="mb-3">
+										<label class="form-label">日付</label>
+										<div class="col-md-5">
+											<input type="date" class="form-control" th:field="*{reportDate}" />
+											<div th:if="${#fields.hasErrors('reportDate')}" class="text-danger small"
+												th:errors="*{reportDate}"></div>
+										</div>
+									</div>
+
+
+									<div class="mb-3">
+										<label class="form-label">氏名</label>
+										<div class="col-md-7">
+											<select class="form-select" th:field="*{employee.code}">
+												<option value="" disabled selected>選択してください</option>
+												<option th:each="emp : ${employeeList}" th:value="${emp.code}"
+													th:text="${emp.name}"></option>
+											</select>
+											<div th:if="${#fields.hasErrors('employee')}" class="text-danger small"
+												th:errors="*{employee}"></div>
+										</div>
+									</div>
+
+
+									<div class="mb-3">
+										<label class="form-label">タイトル</label>
+										<div class="col-md-10">
+											<input type="text" class="form-control" th:field="*{title}"
+												maxlength="100" />
+											<div th:if="${#fields.hasErrors('title')}" class="text-danger small"
+												th:errors="*{title}"></div>
+										</div>
+									</div>
+
+
+									<div class="mb-3">
+										<label class="form-label">内容</label>
+										<div class="col-md-10">
+											<textarea class="form-control" th:field="*{content}" rows="5"
+												maxlength="500"></textarea>
+											<div th:if="${#fields.hasErrors('content')}" class="text-danger small"
+												th:errors="*{content}"></div>
+										</div>
+									</div>
+								</div>
+
+
+								<div class="mt-4">
+									<input type="submit" value="登録" class="btn btn-primary">
+									<a th:href="@{/reports}" class="btn btn-primary ms-2">戻る</a>
+
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
