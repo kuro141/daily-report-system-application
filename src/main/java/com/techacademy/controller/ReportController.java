@@ -41,10 +41,10 @@ public class ReportController {
 	@GetMapping("/add")
 	public String newReport(@AuthenticationPrincipal UserDetail userDetail, Model model) {
 		Report report = new Report();
-		report.setEmployee(userDetail.getEmployee()); // ログインユーザーを紐付ける
+		report.setEmployee(userDetail.getEmployee());
 
 		model.addAttribute("report", report);
-		model.addAttribute("employee", userDetail.getEmployee()); // 氏名表示用
+		model.addAttribute("employee", userDetail.getEmployee());
 		return "reports/new";
 	}
 
@@ -70,6 +70,8 @@ public class ReportController {
 	@PostMapping("/add")
 	public String createReport(@ModelAttribute("report") @Validated Report report, BindingResult result,
 	        @AuthenticationPrincipal UserDetail userDetail, Model model) {
+
+		System.out.println("登録時の reportDate = " + report.getReportDate());
 
 	    // ログインユーザーを再セット（セキュリティ上、formのemployeeを信用しない）
 	    report.setEmployee(userDetail.getEmployee());
@@ -99,17 +101,29 @@ public class ReportController {
 
 	// 更新画面の表示
 	@GetMapping("/{id}/update")
-	public String edit(@PathVariable("id") Integer id, Model model) {
-		Report report = reportService.getReport(id);
-		model.addAttribute("report", report);
-		model.addAttribute("employeeList", employeeService.findAll());
-		return "reports/edit";
+	public String edit(@PathVariable("id") Integer id,
+	                   @AuthenticationPrincipal UserDetail userDetail,
+	                   Model model) {
+	    Report report = reportService.getReport(id);
+
+	    System.out.println("画面表示時の reportDate = " + report.getReportDate());
+
+	    model.addAttribute("report", report);
+	    model.addAttribute("employee", userDetail.getEmployee());
+
+
+
+	    return "reports/edit";
+
 	}
+
 
 	// 更新処理
 	@PostMapping("/{id}/update")
 	public String update(@PathVariable("id") Integer id, @Valid @ModelAttribute Report report, BindingResult result,
 	                     @AuthenticationPrincipal UserDetail userDetail, Model model) {
+
+	    System.out.println("更新時の reportDate = " + report.getReportDate());
 
 	    report.setEmployee(userDetail.getEmployee());
 
@@ -118,9 +132,10 @@ public class ReportController {
 	    }
 
 	    if (result.hasErrors()) {
-	        model.addAttribute("employeeList", employeeService.findAll());
+	        model.addAttribute("employee", userDetail.getEmployee());
 	        return "reports/edit";
 	    }
+
 
 	    reportService.update(report);
 	    return "redirect:/reports";

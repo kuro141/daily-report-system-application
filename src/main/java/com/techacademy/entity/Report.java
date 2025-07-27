@@ -70,6 +70,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import org.hibernate.annotations.SQLRestriction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -98,6 +99,7 @@ public class Report {
 
 	@Column(name = "report_date", nullable = false)
 	@NotNull
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate reportDate;
 
 	@Column(name = "start_time")
