@@ -1,5 +1,6 @@
 package com.techacademy.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.techacademy.entity.Employee;
 import com.techacademy.entity.Report;
 import com.techacademy.repository.ReportRepository;
 
@@ -40,6 +42,12 @@ public class ReportService {
 		return reportRepository.save(report);
 	}
 
+	public boolean existsByEmployeeAndDate(Employee employee, LocalDate date) {
+	    return reportRepository.existsByEmployeeAndReportDate(employee, date);
+	}
+
+
+
 	// 更新処理
 	@Transactional
 	public Report update(Report updatedReport) {
@@ -50,12 +58,17 @@ public class ReportService {
 			existingReport.setReportDate(updatedReport.getReportDate());
 			existingReport.setStartTime(updatedReport.getStartTime());
 			existingReport.setEndTime(updatedReport.getEndTime());
-			existingReport.setEmployee(updatedReport.getEmployee()); // ←ここを修正
+			existingReport.setEmployee(updatedReport.getEmployee());
 			existingReport.setUpdatedAt(LocalDateTime.now());
 			return reportRepository.save(existingReport);
 		}
 		return null;
 	}
+
+	public boolean isDuplicateForUpdate(Employee employee, LocalDate reportDate, Integer excludeId) {
+	    return reportRepository.existsByEmployeeAndReportDateAndIdNot(employee, reportDate, excludeId);
+	}
+
 
 	// 論理削除
 	@Transactional

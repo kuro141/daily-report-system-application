@@ -113,16 +113,15 @@
 
 									<div class="mb-3">
 										<label class="form-label">氏名</label>
-										<div class="col-md-7">
-											<select class="form-select" th:field="*{employee.code}">
-												<option value="" disabled selected>選択してください</option>
-												<option th:each="emp : ${employeeList}" th:value="${emp.code}"
-													th:text="${emp.name}"></option>
-											</select>
-											<div th:if="${#fields.hasErrors('employee')}" class="text-danger small"
-												th:errors="*{employee}"></div>
+										<div class="col-md-5">
+											<span class="form-control-plaintext" th:text="${employee.name}">氏名</span>
+											<input type="hidden" th:field="*{employee.code}"
+												th:value="${employee.code}" />
 										</div>
 									</div>
+
+
+
 
 
 									<div class="mb-3">
